@@ -1,0 +1,481 @@
+﻿* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+    background: #0d020a;
+}
+
+/* Container chính toàn màn hình */
+.heart-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #2a081d 0%, #0d020a 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- HIỆU ỨNG TRÁI TIM BAY NỀN --- */
+.hearts-bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.bg-heart {
+    position: absolute;
+    bottom: -40px;
+    user-select: none;
+    animation: floatUp linear infinite;
+    filter: drop-shadow(0 0 6px rgba(255, 105, 180, 0.5));
+    opacity: 0;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(0.8);
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 0.7;
+    }
+
+    85% {
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: translateY(-105vh) rotate(360deg) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* Căn giữa nút bấm & dòng chữ */
+.button-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+}
+
+/* Nút chính Chúc mừng sinh nhật */
+.celebrate-button {
+    background: linear-gradient(135deg, #ff5e97, #ff1493, #d80073);
+    background-size: 200% 200%;
+    animation: gradientShift 4s ease infinite;
+    border: none;
+    border-radius: 50px;
+    padding: 18px 48px;
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5), 0 0 25px rgba(255, 105, 180, 0.6);
+    cursor: pointer;
+    transition: all 0.35s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.celebrate-button:hover {
+    transform: scale(1.08) translateY(-3px);
+    box-shadow: 0 15px 40px rgba(255, 20, 147, 0.8);
+}
+
+.main-text {
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+.left-icon, .right-icon {
+    font-size: 22px;
+}
+
+/* Dòng chữ bấm mở trái tim 3D */
+.sub-text-clickable {
+    margin-top: 22px;
+    color: #ff69b4;
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 12px 28px;
+    border-radius: 35px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border: 2px solid #ff69b4;
+    transition: all 0.35s ease;
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
+    user-select: none;
+    animation: pulseSubText 2s infinite;
+}
+
+@keyframes pulseSubText {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px rgba(255, 20, 147, 0.6);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.sub-text-clickable:hover {
+    background: #ff1493;
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+/* Modal Popup Chứa Trái Tim 3D Xoay */
+.album-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(5, 2, 8, 0.88);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    animation: fadeIn 0.4s ease;
+    overflow: hidden;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.close-btn-floating {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    background: linear-gradient(135deg, #ff1493, #ff69b4);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.6);
+    z-index: 120;
+    transition: all 0.3s ease;
+}
+
+    .close-btn-floating:hover {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+/* Khung nhìn 3D (Perspective) */
+.heart-3d-scene {
+    width: 600px;
+    height: 600px;
+    perspective: 1200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+    position: relative;
+}
+
+    .heart-3d-scene:active {
+        cursor: grabbing;
+    }
+
+/* Khung xoay 3D */
+.heart-3d-world {
+    position: relative;
+    width: 0;
+    height: 0;
+    transform-style: preserve-3d;
+    transition: transform 0.08s ease-out;
+}
+
+/* Mỗi bức ảnh 3D */
+.photo-3d-card {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    margin-left: -22.5px;
+    margin-top: -22.5px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid rgba(255, 182, 193, 0.9);
+    box-shadow: 0 0 12px rgba(255, 20, 147, 0.6);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    backface-visibility: visible;
+    user-select: none;
+    /* ⚡ KÍCH HOẠT GPU TĂNG TỐC HARDWARE ⚡ */
+    will-change: transform;
+    transform-style: preserve-3d;
+    backface-visibility: hidden; /* Ẩn mặt sau ảnh giúp nhẹ đi 50% tải */
+    /* GIẢM BỚT SHADOW ĐỂ TRÁNH GIẬT LAG */
+    box-shadow: 0 0 5px rgba(255, 20, 147, 0.4);
+    /* Bỏ transition trên từng thẻ card vì JavaScript đã tự render mượt rồi */
+    transition: none !important;
+    user-select: none;
+    transform-style: preserve-3d;
+    backface-visibility: visible;
+}
+
+    .photo-3d-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        pointer-events: none;
+    }
+
+    .photo-3d-card:hover {
+        border-color: #ffffff;
+        box-shadow: 0 0 25px #ff1493, 0 0 15px #ffffff;
+        z-index: 1000 !important;
+    }
+
+/* Dòng hướng dẫn xoay */
+.rotate-hint {
+    position: absolute;
+    bottom: 30px;
+    color: #ffb6c1;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(255, 20, 147, 0.8);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+/* ==========================================
+   OPTIMIZATION FOR MOBILE (RESPONSIVE 3D)
+   ========================================== */
+@media (max-width: 768px) {
+    /* Thu nhỏ khung chứa 3D để không bị tràn viền */
+    .heart-3d-scene {
+        width: 100vw !important;
+        height: 60vh !important;
+        perspective: 800px !important; /* Giảm khoảng cách góc nhìn giúp dễ quan sát hơn */
+    }
+
+    /* Thu nhỏ kích thước từng khung ảnh trên mobile */
+    .photo-3d-card {
+        width: 32px !important; /* Giảm kích thước ảnh */
+        height: 32px !important;
+        margin-left: -16px !important; /* Giữ ảnh căn đúng tâm (width / 2) */
+        margin-top: -16px !important; /* Giữ ảnh căn đúng tâm (height / 2) */
+        border-width: 1px !important; /* Viền mỏng hơn cho đỡ rối */
+        border-radius: 4px !important;
+    }
+
+    /* Nút đóng nổi trên mobile */
+    .close-btn-floating {
+        top: 15px !important;
+        right: 15px !important;
+        padding: 8px 18px !important;
+        font-size: 14px !important;
+    }
+
+    /* Dòng chữ hướng dẫn ở đáy màn hình */
+    .rotate-hint {
+        bottom: 20px !important;
+        font-size: 13px !important;
+        padding: 0 10px;
+        text-align: center;
+    }
+}
+
+/* Dán vào CUỐI FILE wwwroot/css/site.css */
+.photo-3d-card {
+    cursor: pointer;
+}
+
+/* Container Modal phủ toàn màn hình */
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 999999 !important;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, rgba(30, 10, 30, 0.88) 0%, rgba(0, 0, 0, 0.95) 100%);
+    backdrop-filter: blur(12px);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: auto;
+}
+
+    .image-modal.show {
+        display: flex !important;
+    }
+
+    .image-modal.active {
+        opacity: 1;
+    }
+
+/* KHUNG ẢNH: ĐÚNG TỈ LỆ GỐC + VIỀN NEON PHÁT SÁNG VÀ NẢY 3D */
+.modal-content {
+    max-width: 90vw;
+    max-height: 82vh;
+    width: auto;
+    height: auto;
+    object-fit: contain; /* Giữ chuẩn tỉ lệ ảnh gốc */
+    border-radius: 16px;
+    border: 2px solid rgba(255, 192, 203, 0.8);
+    /* Hiệu ứng viền Neon phát sáng nhịp nhàng */
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.6), 0 0 50px rgba(255, 20, 147, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.3);
+    /* TRẠNG THÁI BAN ĐẦU: Thu nhỏ, nghiêng 3D và tụt xuống thấp */
+    transform: scale(0.2) rotateX(25deg) rotateY(-15deg) translateY(80px);
+    opacity: 0;
+    filter: brightness(1.8) contrast(1.2); /* Tạo hiệu ứng lóe sáng ban đầu */
+    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease, filter 0.45s ease;
+}
+
+/* TRẠNG THÁI HIỂN THỊ: Nảy nhẹ ra giữa màn hình và sáng chuẩn */
+.image-modal.active .modal-content {
+    transform: scale(1) rotateX(0deg) rotateY(0deg) translateY(0);
+    opacity: 1;
+    filter: brightness(1) contrast(1);
+    animation: neonGlow 3s infinite alternate ease-in-out;
+}
+
+/* Animation viền Neon đổi màu dịu nhẹ khi đang xem ảnh */
+@keyframes neonGlow {
+    0% {
+        box-shadow: 0 0 20px rgba(255, 105, 180, 0.6), 0 0 40px rgba(255, 20, 147, 0.4);
+        border-color: rgba(255, 182, 193, 0.9);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(255, 20, 147, 0.8), 0 0 60px rgba(186, 85, 211, 0.6);
+        border-color: rgba(255, 105, 180, 0.9);
+    }
+
+    100% {
+        box-shadow: 0 0 25px rgba(255, 192, 203, 0.7), 0 0 50px rgba(255, 105, 180, 0.5);
+        border-color: rgba(238, 130, 238, 0.9);
+    }
+}
+
+/* TRẠNG THÁI KHI THOÁT: Thu nhỏ rơi nhẹ xuống dưới */
+.image-modal.closing .modal-content {
+    transform: scale(0.5) rotateX(-15deg) translateY(50px);
+    opacity: 0;
+    transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+}
+
+.image-modal.closing {
+    opacity: 0;
+}
+
+/* NÚT ĐÓNG (X) NỔI BẬT */
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    width: 44px;
+    height: 44px;
+    line-height: 40px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    z-index: 1000000;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+    .modal-close:hover {
+        background: rgba(255, 20, 147, 0.8);
+        color: #fff;
+        transform: scale(1.15) rotate(90deg);
+        box-shadow: 0 0 15px rgba(255, 20, 147, 0.8);
+    }
+
+/* HIỆU ỨNG KHI THOÁT ÁNH: Phóng to biến mất (Zoom Out / Fade Out) */
+.image-modal.closing .modal-content {
+    transform: scale(0.7) translateY(-10px);
+    opacity: 0;
+}
+
+.image-modal.closing {
+    opacity: 0;
+}
+
+/* Nút đóng X */
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    color: #fff;
+    font-size: 38px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    z-index: 1000000;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+    .modal-close:hover {
+        color: #ff69b4;
+        transform: scale(1.2) rotate(90deg);
+    }
+/* Con trỏ hiển thị bàn tay khi di chuột vào ảnh 3D */
+.photo-3d-card {
+    cursor: pointer !important;
+}
