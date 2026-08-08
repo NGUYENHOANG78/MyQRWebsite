@@ -1,0 +1,114 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Chúc Mừng Sinh Nhật";
+}
+
+<!-- Nhúng trực tiếp CSS có ép làm mới cache -->
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+<div class="main-landing">
+    <!-- Container chứa hiệu ứng tim bay lơ lửng nền -->
+    <div class="hearts-bg-container" id="heartsBgContainer"></div>
+
+    <div class="button-wrapper">
+        <div class="birthday-date">
+            <span> 04 . 08 . 2026 </span>
+        </div>
+        <button class="celebrate-button" onclick="celebrateClick();">
+            <span class="left-icon">💖</span>
+            <span class="main-text">
+                <span class="char" style="--i:1">C</span>
+                <span class="char" style="--i:2">h</span>
+                <span class="char" style="--i:3">ú</span>
+                <span class="char" style="--i:4">c</span>
+                <span class="space"> </span>
+                <span class="char" style="--i:5">M</span>
+                <span class="char" style="--i:6">ừ</span>
+                <span class="char" style="--i:7">n</span>
+                <span class="char" style="--i:8">g</span>
+                <span class="space"> </span>
+                <span class="char" style="--i:9">S</span>
+                <span class="char" style="--i:10">i</span>
+                <span class="char" style="--i:11">n</span>
+                <span class="char" style="--i:12">h</span>
+                <span class="space"> </span>
+                <span class="char" style="--i:13">N</span>
+                <span class="char" style="--i:14">h</span>
+                <span class="char" style="--i:15">ậ</span>
+                <span class="char" style="--i:16">t</span>
+                <span class="space"> </span>
+                <span class="char" style="--i:17">E</span>
+                <span class="char" style="--i:18">m</span>
+            </span>
+            <span class="right-icon">💖</span>
+        </button>
+
+        <div class="sub-text-clickable" onclick="openAlbum();">
+            <span class="sub-icon">✨</span>
+            <span>Bấm vào đây đi bé iu 👉💖👈</span>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Popup Album Bánh Kem & Khối Cube 3D Xoay -->
+<div id="photo-album" class="album-modal" style="display: none;">
+    <button class="close-album-btn" onclick="closeAlbum();">&times;</button>
+
+    <div class="scene-container">
+        <!-- Bánh kem SVG trung tâm (Sự kiện onclick trực tiếp) -->
+        <div class="center-cake-wrapper" onclick="openCardModal();">
+            <svg class="glowing-cake" viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Nến & Ngọn lửa -->
+                <rect x="96" y="20" width="8" height="25" rx="3" fill="#ffffff" />
+                <path d="M100 5 C95 12, 95 18, 100 22 C105 18, 105 12, 100 5 Z" fill="#ff4500" filter="drop-shadow(0 0 6px #ffd700)" />
+
+                <!-- Tầng trên -->
+                <rect x="50" y="45" width="100" height="45" rx="10" stroke="#ff69b4" stroke-width="4" fill="rgba(255, 105, 180, 0.25)" />
+                <path d="M 50 60 Q 62.5 70, 75 60 Q 87.5 70, 100 60 Q 112.5 70, 125 60 Q 137.5 70, 150 60" stroke="#ffb6c1" stroke-width="3" fill="none" />
+
+                <!-- Tầng dưới -->
+                <rect x="30" y="90" width="140" height="60" rx="12" stroke="#ff1493" stroke-width="5" fill="rgba(255, 20, 147, 0.3)" />
+                <path d="M 30 110 Q 47.5 125, 65 110 Q 82.5 125, 100 110 Q 117.5 125, 135 110 Q 152.5 125, 170 110" stroke="#ff69b4" stroke-width="4" fill="none" />
+
+                <!-- Đĩa bánh -->
+                <ellipse cx="100" cy="155" rx="80" ry="10" stroke="#ffffff" stroke-width="3" fill="rgba(255, 255, 255, 0.4)" />
+            </svg>
+
+            <!-- Chữ gợi ý bấm vào bánh -->
+            <div class="cake-hint">✨ Bấm vào bánh kem nè! ✨</div>
+        </div>
+
+        <!-- Container nơi JS tự động sinh ra các khối vuông 3D -->
+        <div id="cubes-container"></div>
+    </div>
+</div>
+
+<!-- Modal Thiệp Chúc Mừng Sinh Nhật -->
+<div id="cardModal" class="card-modal">
+    <div class="greeting-card">
+        <button class="card-close-btn" onclick="closeCardModal();">&times;</button>
+        <div class="card-title">🎂 Happy Birthday! 🌸</div>
+        <div class="card-body">
+            Chúc em tuổi mới luôn rạng rỡ, xinh đẹp, vui vẻ và gặt hái được thật nhiều thành công!
+            Mong rằng mọi điều may mắn và tuyệt vời nhất sẽ luôn mỉm cười với em mỗi ngày! ✨💖
+            Anh sẽ luôn bên em và đồng hành cùng em đến hết đời luôn. Tin anh và cho anh cơ hội nhé ❤️
+        </div>
+        <div class="card-footer">❤️ Bảo Châu của anh ❤️</div>
+    </div>
+</div>
+
+<!-- Modal Phóng To Ảnh -->
+<div id="imageModal" class="image-modal">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImg" alt="Phóng to ảnh">
+</div>
+
+<!-- Thẻ phát nhạc nền ẩn -->
+<audio id="birthdayAudio" loop>
+    <source src="~/audio/hpbd.mp3" type="audio/mpeg" />
+</audio>
+
+@section Scripts {
+    <script src="~/js/site.js" asp-append-version="true"></script>
+}
